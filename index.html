@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Love Book ❤️</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #fff5f8;
+  color: #66364b;
+}
+
+header {
+  background: #f7c6d9;
+  text-align: center;
+  padding: 35px 15px;
+}
+
+header h1 {
+  color: #a52d63;
+  font-size: 27px;
+}
+
+header p {
+  color: #88445f;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 8px;
+  background: white;
+}
+
+nav a {
+  text-decoration: none;
+  color: #b53c70;
+  border: 1px solid #f1bfd2;
+  padding: 9px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+main {
+  max-width: 600px;
+  margin: auto;
+  padding: 18px;
+}
+
+section {
+  background: white;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px #eacbd7;
+}
+
+h2 {
+  color: #bc4779;
+}
+
+.heart {
+  font-size: 35px;
+  text-align: center;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #edbfd0;
+  border-radius: 10px;
+  font-family: Arial;
+}
+
+button {
+  background: #d65b91;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #a44c72;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="heart">❤️</div>
+  <h1>OUR LITTLE LOVE BOOK</h1>
+  <h2>JOB & DORCAS</h2>
+  <p>Two hearts. One beautiful story.</p>
+  <p>Made with love, just for us.</p>
+</header>
+
+<nav>
+  <a href="#story">Our Story</a>
+  <a href="#letters">Love Letters</a>
+  <a href="#reasons">My Reasons</a>
+  <a href="#promises">Promises</a>
+</nav>
+
+<main>
+
+<section id="story">
+  <h2>💕 Our Story</h2>
+  <p>
+    Every beautiful story has a beginning.
+    This is where ours begins.
+  </p>
+  <p>
+    Two people, two hearts, and a journey
+    we hope will be filled with happiness,
+    laughter and beautiful memories.
+  </p>
+  <p><b>Job ❤️ Dorcas</b></p>
+</section>
+
+<section id="letters">
+  <h2>💌 Love Letters</h2>
+  <p>Write something special for each other.</p>
+
+  <input id="sender" placeholder="Your name">
+  <textarea id="letter" placeholder="Write your love message..."></textarea>
+  <button onclick="saveLetter()">Save Love Letter ❤️</button>
+
+  <div id="savedLetters"></div>
+</section>
+
+<section id="reasons">
+  <h2>🌹 Reasons I Love You</h2>
+  <textarea id="reason" placeholder="Write a reason..."></textarea>
+  <button onclick="saveReason()">Save Reason</button>
+  <div id="savedReasons"></div>
+</section>
+
+<section id="memories">
+  <h2>📸 Our Beautiful Memories</h2>
+  <p>Every picture tells a story of us. ❤️</p>
+
+  <input type="file" id="photoInput" accept="image/*">
+
+  <button onclick="addPhoto()">Add Our Picture ❤️</button>
+
+  <div id="gallery" style="
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+  "></div>
+</section>
+
+<section id="reasons100">
+  <h2>💗 100 Reasons I Love You</h2>
+  <p>Little things that make you special, Dorcas.</p>
+
+  <div id="loveReasons100"></div>
+</section>
+
+<section id="promises">
+  <h2>🤞 Our Promises</h2>
+  <p>
+    We promise to respect each other,
+    communicate honestly, support each other
+    and keep choosing love.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  Made with ❤️ by Job, for Dorcas.
+  <p>Our little world, our beautiful story.</p>
+</footer>
+
+<script>
+function saveLetter() {
+  const sender = document.getElementById("sender").value.trim();
+  const letter = document.getElementById("letter").value.trim();
+
+  if (!sender || !letter) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  const letters = JSON.parse(localStorage.getItem("loveLetters") || "[]");
+  letters.push({sender, letter});
+  localStorage.setItem("loveLetters", JSON.stringify(letters));
+
+  document.getElementById("sender").value = "";
+  document.getElementById("letter").value = "";
+  showLetters();
+}
+
+function showLetters() {
+  const letters = JSON.parse(localStorage.getItem("loveLetters") || "[]");
+  document.getElementById("savedLetters").innerHTML =
+    letters.map(item =>
+      `<p><b>${escapeHTML(item.sender)}</b><br>${escapeHTML(item.letter)}</p><hr>`
+    ).join("");
+}
+
+function saveReason() {
+  const reason = document.getElementById("reason").value.trim();
+
+  if (!reason) {
+    alert("Write a reason first.");
+    return;
+  }
+
+  const reasons = JSON.parse(localStorage.getItem("loveReasons") || "[]");
+  reasons.push(reason);
+  localStorage.setItem("loveReasons", JSON.stringify(reasons));
+
+  document.getElementById("reason").value = "";
+  showReasons();
+}
+
+function showReasons() {
+  const reasons = JSON.parse(localStorage.getItem("loveReasons") || "[]");
+  document.getElementById("savedReasons").innerHTML =
+    reasons.map(item => `<p>❤️ ${escapeHTML(item)}</p>`).join("");
+}
+
+function escapeHTML(value) {
+  const div = document.createElement("div");
+  div.textContent = value;
+  return div.innerHTML;
+}
+
+showLetters();
+showReasons();
+
+const reasonsToLove = [
+"You make me smile.",
+"Your beautiful personality.",
+"The way you laugh.",
+"Your kindness.",
+"Your beautiful heart.",
+"The way you make me feel.",
+"Your lovely smile.",
+"Your sense of humour.",
+"Your voice.",
+"Your presence makes me happy.",
+"You are special to me.",
+"You make ordinary days beautiful.",
+"Your honesty.",
+"Your courage.",
+"Your dreams.",
+"Your ambition.",
+"Your caring heart.",
+"The way you listen.",
+"Your little surprises.",
+"Your beautiful energy.",
+"Your patience.",
+"Your confidence.",
+"Your uniqueness.",
+"The way you talk.",
+"Your sweet nature.",
+"Your intelligence.",
+"Your strength.",
+"Your gentle heart.",
+"Your sense of style.",
+"Your positive spirit.",
+"Your encouragement.",
+"Your beautiful eyes.",
+"The way you understand me.",
+"Your loyalty.",
+"Your thoughtfulness.",
+"Your warmth.",
+"Your creativity.",
+"Your determination.",
+"Your little jokes.",
+"Your happiness.",
+"You inspire me.",
+"You bring me peace.",
+"You make me feel appreciated.",
+"You make me laugh.",
+"You are my favourite person.",
+"Your dreams matter to me.",
+"Your support.",
+"Your compassion.",
+"Your beautiful soul.",
+"Simply because you are Dorcas."
+];
+
+document.getElementById("loveReasons100").innerHTML =
+reasonsToLove.map((reason, index) =>
+`<p style="padding:10px;background:#fff0f5;border-radius:10px;">
+❤️ ${index + 1}. ${reason}
+</p>`
+).join("");
+
+</script>
+
+</body>
+</html>
